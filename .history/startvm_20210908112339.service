@@ -1,0 +1,10 @@
+[unit]
+Description=Start OpenMRS vm
+After=network.target vboxdrv.service
+Before=runlevel2.target
+
+[Service]
+User=hms
+Group=vboxusers
+Type=forking
+Restart=no

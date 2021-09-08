@@ -1,0 +1,16 @@
+[unit]
+Description=Start OpenMRS vm
+After=network.target vboxdrv.service
+Before=runlevel2.target
+
+[Service]
+User=hms
+Group=vboxusers
+Type=forking
+Restart=no 
+TimeoutSec=5min
+KillMode=process
+RemainAfterExit=yes
+
+ExecStart=/usr/bin/VBoxManage startvm openmrs --type headless
+ExecStop=/usr/bin/VBoxManage controlvm openmrs savestate
