@@ -12,8 +12,8 @@ TimeoutSec=5min
 KillMode=process
 RemainAfterExit=yes
 
-ExecStart=/usr/bin/VBoxManage startvm openmrs --type headless
-ExecStop=/usr/bin/VBoxManage controlvm openmrs poweroff
+ExecStart=/usr/bin/VBoxManage startvm openmrs-test --type headless
+ExecStop=/usr/bin/VBoxManage controlvm openmrs-test savestate
 
 [Install]
 WantedBy=multi-user.target
