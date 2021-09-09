@@ -13,7 +13,7 @@ echo "Tomcat server is stopped"
 
 echo "mysqldump started at $(date +'%d-%m-%Y %H:%M:%S') " >> $logfile
 
-mysqldump --user=root --password=mysql --default-character-set=utf8 hsn | gzip > $path
+mysqldump --user=root --password=xxxx --default-character-set=utf8 hsn | gzip > $path
 
 echo "mysqldump finished at $(date +'%d-%m-%Y %H:%M:%S')" >> $logfile
 
