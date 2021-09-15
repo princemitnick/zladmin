@@ -1,0 +1,13 @@
+version: '3'
+services:
+   mysql-replication-service:
+      image: zldev/mysql:1.0.0-alpha
+      restart: always
+      container_name: mysql_c19rtr_replication
+      volumes:
+      - /opt/hms/mysql_replication:/var/lib/mysql
+      environment:
+        MYSQL_USER: root
+        MYSQL_ROOT_PASSWORD: mysql
+      ports:
+      - "3310:3306"
