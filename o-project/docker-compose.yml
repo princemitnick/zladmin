@@ -1,8 +1,0 @@
-version: '3.4'
-
-services:
-  openmrs:
-    image: openmrs
-    build:
-      context: .
-      dockerfile: ./Dockerfile
