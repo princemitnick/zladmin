@@ -12,7 +12,6 @@ TimeoutSec=5min
 KillMode=process
 RemainAfterExit=yes
 
-ExecStartPre=/usr/sbin/modprobe vboxdrv
 ExecStart=/usr/bin/VBoxManage startvm openmrs --type headless
 ExecStop=/usr/bin/VBoxManage controlvm openmrs poweroff
 

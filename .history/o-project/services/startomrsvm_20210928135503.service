@@ -1,6 +1,6 @@
 [Unit]
 Description=Start OpenMRS vm
-After=network.target vboxdrv.service
+After=network.target 
 Before=runlevel2.target
 
 [Service]
@@ -12,7 +12,6 @@ TimeoutSec=5min
 KillMode=process
 RemainAfterExit=yes
 
-ExecStartPre=/usr/sbin/modprobe vboxdrv
 ExecStart=/usr/bin/VBoxManage startvm openmrs --type headless
 ExecStop=/usr/bin/VBoxManage controlvm openmrs poweroff
 
