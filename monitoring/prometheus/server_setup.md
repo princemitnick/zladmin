@@ -42,3 +42,18 @@ sudo systemctl enable prometheus
 
 ### Reloading new config file
 sudo killall -HUP prometheus
+
+
+
+## Configure node Exporter
+scrape_config = section of the Prometheus config file provides a list of targets the Prometheus server will scrape, such as a Node Exporter running on a Linux machine.
+Prometheus server will scrape these targets periodically to collect metric data.
+
+Edit prometheus.yml
+Go to "scrape_configs" section
+
+- job_name : 'Server Name'
+  static_configs:
+  - targets: ['192.168.1.1:9100']
+
+sudo killall -HUP prometheus
