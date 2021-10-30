@@ -1,2 +1,2 @@
 # zladmin
-## 
+## Setup zl servers 
