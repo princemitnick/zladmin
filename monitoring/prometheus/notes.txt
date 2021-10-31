@@ -1,0 +1,20 @@
+Every metric has a name 
+"node_cpu_seconds_total"
+
+Prometheus uses labels to provide a dimensional data model
+
+node_cpu_seconds_total{cpu="0"}
+node_cpu_seconds_total{cpu="0",instance="172.25.112.107:9100",mode="idle"} 287.75
+
+
+Metric Types : 
+Metric Types refer to different ways in which exporters represent the metric data they provide
+
+Counter : 
+A counter is a single number that can only increase or be reset to zero.
+Counter represents cumilative values
+
+node_cpu_seconds_total[5m]
+
+Gauge
+A gauge is a single number that can be increase or decrease overtime
