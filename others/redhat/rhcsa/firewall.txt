@@ -1,3 +1,29 @@
 firewalld (the service)
 
 firewall-cmd (the config tool)
+
+yum install firewalld firewall-config
+
+systemctl start firewalld
+
+
+firewall zones
+
+A zone is just a convenient grouping of rules and things to apply
+those rules to.
+
+firewall-cmd --get-zones
+firewall-cmd --get-default-zone
+
+###############
+Firewall rules
+
+firewall-cmd --zone=home --list-all 
+
+firewall-cmd --zone=home --add-service=http 
+firewall-cmd --zone=home --add-port=80/tcp 
+
+firewall-cmd --add-source=192.168.0.0/24 
+
+firewall-cmd --reload
+
