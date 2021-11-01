@@ -1,0 +1,20 @@
+yum install samba -y
+
+vim /etc/samba/smb.conf
+
+[share]
+    browsable = yes
+    path = /smb
+    writable = yes
+
+useradd shareuser
+smbpasswd -a shareuser
+
+mkdir /smb
+
+systemctl start smb
+chmod 777 smb
+
+yum install cifs-utils -y
+
+mount -t cifs //<IP-address-of-server>/share /mnt/smb -o username=shareuser,password=<passwd-set-for-shareuser-with-smbpasswd>

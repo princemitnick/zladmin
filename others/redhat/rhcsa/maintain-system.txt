@@ -1,0 +1,24 @@
+##############
+at
+
+at 12:00pm
+at> yum update -y
+Ctrl+D 
+
+######################
+Chrony
+
+vim /etc/chrony.conf 
+
+chronyc sources -a 
+
+################ 
+Modify Grub to Boot a different kernel 
+
+
+grubby --info=ALL
+
+grubby --set-default-index=<index-number>
+
+grubby --default-index 
+

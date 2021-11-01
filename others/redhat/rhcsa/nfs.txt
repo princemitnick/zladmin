@@ -1,0 +1,24 @@
+yum install nfs-utils -y
+
+mkdir nfs 
+
+vim /etc/exports 
+
+/nfs *(rw)
+
+chmod 777 /nfs 
+
+exportfs -a 
+
+systemctl start {rpcbind, nfs-server,rpc-statd, nfs-idmapd}
+
+
+yum install nfs-utils -y 
+
+mkdir /mnt/nfs 
+
+show mount -e <nfs-server-ipadd>
+
+systemctl start rpcbind 
+
+mount -t nfs <nfs-server-ip>:/nfs /mnt/nfs
