@@ -1,0 +1,14 @@
+VDO (Virtual Data Optimizer) :
+method of providing deduplication, compression, and thin provisioning.
+
+
+yum install vdo kmod-kvdo
+systemctl start vdo.service
+vdo create --name=MyVDO --device=/dev/nvme1n1 --vdoLogicalSize=60G --deduplication=disabled
+
+
+
+add vdo device on fstab
+
+/dev/mapper/vdo-device /mount/point FSTYPE defaults,_netdev,x-systemd.device-timeout=0,x-systemd.requires=vdo.service 0 0
+

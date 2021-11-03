@@ -1,0 +1,7 @@
+VDO (Virtual Data Optimizer) :
+method of providing deduplication, compression, and thin provisioning.
+
+
+yum install vdo kmod-kvdo
+systemctl start vdo.service
+

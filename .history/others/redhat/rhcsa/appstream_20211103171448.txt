@@ -1,0 +1,8 @@
+yum install module-name
+
+yum module enable module-name:version
+
+yum install module-name:version 
+
+yum module resseting module-name 
+
