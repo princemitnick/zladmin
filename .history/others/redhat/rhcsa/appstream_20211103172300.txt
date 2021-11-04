@@ -9,6 +9,3 @@ yum module resseting module-name
 yum module list
 
 yum module info --profile httpd
-
-yum module install http/minimal
-

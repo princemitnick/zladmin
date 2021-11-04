@@ -11,4 +11,3 @@ yum module list
 yum module info --profile httpd
 
 yum module install http/minimal
-
