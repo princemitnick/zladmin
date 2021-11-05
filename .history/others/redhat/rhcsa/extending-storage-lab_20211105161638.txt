@@ -1,0 +1,8 @@
+pvcreate /dev/nvme3n1
+
+vgextend vodDev /dev/nvme3n1
+lvextend -l +100%FREE /dev/vdoDev/vdoLV
+
+vdo growPhysical --name=LA
+
+vdo growLogical --name=LA --vdoLogicalSize=180G

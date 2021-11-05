@@ -1,0 +1,4 @@
+pvcreate /dev/nvme3n1
+
+vgextend vodDev /dev/nvme3n1
+lvextend -l +100%FREE
