@@ -1,0 +1,17 @@
+To view a process's current settings : 
+chrt -f -p <PRIO#> <PID#>
+
+To make a process use FIFO : 
+chrt -f -p <PRIO#> <PID#>
+
+To make a process use RR : 
+chrt -r -p <PRIO#> <PID#>
+
+To make a process use OTHER:
+chrt -o -p <PRIO#> <PID#>
+
+To start a process with a different scheduler : 
+
+chrt -f <PRIO#> /path/to/command
+
+

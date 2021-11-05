@@ -1,0 +1,42 @@
+Security Enhanced Linux (SELinux) : 
+set of rules that defines what process can have access to what
+files on a system.
+
+SELinux Mode : 
+
+Enforcing :
+SELinux security model is enforced
+
+Permissive : 
+SELinux prints warnings but allows access that would normally be denied
+
+getenforce
+
+setenforce 0 | 1
+
+A Boolean is a conditional rule that allows runtime modification
+of the security policy without having to load a new policy 
+
+getsebool httpd_enable_cgi
+
+setsebool httpd_enable_cgi on | off 
+
+setsebool httpd_enable_cgi on | off -P
+
+
+#####################################
+Manage SELinux Contexts
+
+semanage fcontext -l
+
+chcon -t httpd_sys_content_t index.html
+
+semanage fcontext -a -t httpd_sys_content_t '/content(/.*)?'
+touch /.autorelabel
+
+restorecon -R /content
+
+
+Troubleshoot SELinux
+yum install setroubleshoot-server 
+

@@ -1,0 +1,46 @@
+selector : 
+most basic component of the PromQL query
+A time-series selector is simply a metric name, optionally combined
+with labels
+
+
+Label Matching
+
+= : Equals
+node_cpu_seconds_total{cpu="0"}
+
+!= : Does not equal 
+node_cpu_seconds_total{cpu!="0"}
+=~ : Regex match 
+!~ : Does not regex match 
+
+Range Vector selectors
+
+select data point over a particular time range 
+
+node_cpu_seconds_total{cpu="0"}[2m]
+
+
+Offset Modifier : 
+
+provide a time offset to select data from the past, with or without a range selector
+
+
+Query Operators : 
++ : Addition
+- : Substration
+* : Multiplication
+/ : Division
+% : Modulo
+^ : Exponentiation
+
+Prometheus uses matching rules to determine how to combine or compare
+records from two sets of data.
+
+ignoring(<label list>) - ignore the specified labels when matching.
+on(<label list>) - Use only the specified labels when matching
+
+
+node_cpu_seconds_total{mode="system"} + ignoring(mode) node_cpu_seconds_total{mode="user"}
+
+node_cpu_seconds_total{mode="system"} + on(cpu) node_cpu_seconds_total{mode="user"}
