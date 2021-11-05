@@ -1,0 +1,5 @@
+yum install vdo 
+
+systemctl start vdo && systemctl enable vdo 
+
+vdo create --name=ContainerStorage --device=/dev/nvme1n1 --vdoLogicalSize=100G --sparseIndex=disabled

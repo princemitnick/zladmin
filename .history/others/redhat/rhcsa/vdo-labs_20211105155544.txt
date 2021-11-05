@@ -1,0 +1,9 @@
+yum install vdo 
+
+systemctl start vdo && systemctl enable vdo 
+
+# Setup VDO storage volume
+vdo create --name=ContainerStorage --device=/dev/nvme1n1 --vdoLogicalSize=100G --sparseIndex=disabled
+
+mkfs.xfs -K /dev/mapper/ContainerStorage && udevadm settle
+

@@ -26,4 +26,3 @@ set of configurable buckets, each with its own separate time series.
 A Histogram will use labels to differentiate between buckets.
 
 http_request_duration_seconds_bucket{le="0.3"}
-

@@ -1,0 +1,6 @@
+pvcreate /dev/sdc1
+
+vgextend VGNAME /dev/sdc1 
+
+lvextend -r -L +100%FREE /dev/VGNAME/LVNAME
+

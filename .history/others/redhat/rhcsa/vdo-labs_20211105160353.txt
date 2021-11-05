@@ -1,0 +1,34 @@
+yum install vdo 
+
+systemctl start vdo && systemctl enable vdo 
+
+# Setup VDO storage volume
+vdo create --name=ContainerStorage --device=/dev/nvme1n1 --vdoLogicalSize=100G --sparseIndex=disabled
+
+
+# Setup filesystem
+mkfs.xfs -K /dev/mapper/ContainerStorage && udevadm settle
+
+# Create mount point and mount filesystem
+mkdir /mnt/containers && mount /dev/mapper/ContainerStorage /mnt/containers
+
+#Add filesystem on /etc/fstab
+/dev/mapper/ContainerStorage    /mnt/containers xfs defaults,_netdev,x-systemd.device-timeout=0,x-systemd.requires=vdo.service  0   0
+
+
+#################################################
+
+#Setup VDO storage volume
+vdo create --name=WebsiteStorage --device=/dev/nvme2n1 --vdoLogicalSize=60G
+
+# Disable deduplication
+
+vdo disableDeduplication --name=WebsiteStorage
+
+# Setup filesystem
+mkfs.xfs -K /dev/mapper/WebsiteStorage && udevadm settle
+
+#Create Mountpoint
+
+
+

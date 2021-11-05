@@ -1,0 +1,3 @@
+pvcreate /dev/sdc1
+
+vgextend VGNAME /dev/sdc1
