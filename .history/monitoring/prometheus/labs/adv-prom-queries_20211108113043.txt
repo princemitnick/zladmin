@@ -1,0 +1,21 @@
+node_cpu_seconds_total{mode="system"} + ignoring(mode) node_cpu_seconds_total(mode="user") > 10000
+
+node_cpu_seconds_total{job="bcentral Server"} + node_cpu_seconds_total{mode="user"} + ignoring(mode) node_cpu_seconds_total{mode="system"}
+
+
+################
+Run a query to add the CPU usage in the sytem and user modes for each instance. Then, filter the results to only instances where the combined
+number of CPU seconds is more than 10000:
+
+(node_cpu_seconds_total{mode="system"} + ignoring(mode) node_cpu_seconds_total{mode="user"}) > 10000
+
+
+#################
+Run a query from the Prometheus expression browser
+rate(http_request_duration_seconds_sum[5m])
+
+
+#################
+Make an HTTP request to the Prometheus server to retrieve the data
+
+curl localhost:9090/api/v1/query?query=
