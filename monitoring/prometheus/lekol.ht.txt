@@ -1,0 +1,30 @@
+job = "lekol Server" 
+instance = "172.25.40.190:9100"
+
+
+##########
+Memory Usage
+
+
+(
+  node_memory_MemTotal_bytes{job="lekol Server", instance="172.25.40.190:9100"}
+-
+  node_memory_MemFree_bytes{job="lekol Server", instance="172.25.40.190:9100"}
+-
+  node_memory_Buffers_bytes{job="lekol Server", instance="172.25.40.190:9100"}
+-
+  node_memory_Cached_bytes{job="lekol Server", instance="172.25.40.190:9100"}
+)
+
+
+
+###########
+CPU Usage
+(
+  (1 - rate(node_cpu_seconds_total{job="node", mode="idle", instance="172.25.40.190:9100"}[$__interval]))
+/ ignoring(cpu) group_left
+  count without (cpu)( node_cpu_seconds_total{job="node", mode="idle", instance="172.25.40.190:9100"})
+)
+
+
+

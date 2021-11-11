@@ -1,0 +1,13 @@
+##########
+Memory Usage
+
+
+(
+  node_memory_MemTotal_bytes{job="node", instance="$instance"}
+-
+  node_memory_MemFree_bytes{job="node", instance="$instance"}
+-
+  node_memory_Buffers_bytes{job="node", instance="$instance"}
+-
+  node_memory_Cached_bytes{job="node", instance="$instance"}
+)

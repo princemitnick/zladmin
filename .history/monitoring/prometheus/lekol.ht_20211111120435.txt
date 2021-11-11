@@ -1,0 +1,14 @@
+##########
+Memory Usage
+job = "lekol Server" 
+instance = "172.25.40.190:9100"
+
+(
+  node_memory_MemTotal_bytes{job="lekol Server", instance="$instance"}
+-
+  node_memory_MemFree_bytes{job="lekol Server", instance="$instance"}
+-
+  node_memory_Buffers_bytes{job="lekol Server", instance="$instance"}
+-
+  node_memory_Cached_bytes{job="lekol Server", instance="$instance"}
+)
