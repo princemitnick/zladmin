@@ -2,6 +2,14 @@
 CPU Usage 
 sum(rate(node_cpu_seconds_total{instance='webserver:9100',mode!='idle'}[5m])) * 100
 
+(
+  (1 - rate(node_cpu_seconds_total{job="node", mode="idle", instance="$instance"}[$__interval]))
+/ ignoring(cpu) group_left
+  count without (cpu)( node_cpu_seconds_total{job="node", mode="idle", instance="$instance"})
+)
+
+
+
 ##
 Memory Usage 
 100 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * 100
