@@ -61,6 +61,6 @@ B
 
 sum(
   max by (device) (
-    node_filesystem_avail_bytes{job="lekol Server", instance="172.25.40.190:9100", fstype!=""}
+    node_filesystem_avail_bytes{job="lekol Server", instance="$instance", fstype!=""}
   )
 )

@@ -33,5 +33,3 @@ Setup node exorter for grafana
 variables
 
 instance : label_values(node_exporter_build_info{job="node"}, instance)
-
-label_values(node_uname_info{job="node"}, instance)
