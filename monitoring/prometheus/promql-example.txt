@@ -32,3 +32,13 @@ Memory Usage
   avg(node_memory_MemTotal_bytes{job="node", instance="$instance"})
 * 100
 )
+
+
+# DIsk IO 
+
+rate(node_disk_read_bytes_total{job="node", instance="$instance", device!=""}[$__interval])
+
+rate(node_disk_written_bytes_total{job="node", instance="$instance", device!=""}[$__interval])
+
+rate(node_disk_io_time_seconds_total{job="node", instance="$instance", device!=""}[$__interval])
+
