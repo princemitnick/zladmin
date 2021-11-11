@@ -1,0 +1,27 @@
+apt-get update
+apt-get -y upgrade
+
+apt-get install apache2
+
+apt-get install php libapache2-mod-php php-{gd,common,mail-mime,mysql,pear,db,mbstring,xml,curl}
+
+
+apt-get install mariadb-server
+mysql_secure_installation
+
+apt-get install freeradius
+
+apt-get install freeradius-mysql freeradius-utils
+
+mysql -uroot -pmysql radius < /etc/freeradius/3.0/mods-config/sql/main/mysql/schema.sql
+
+ln -s /etc/freeradius/3.0/mods-available/sql /etc/freeradius/3.0/mods-enabled/
+
+edit /etc/freeradius/3.0/mods-enabled/sql
+
+"""
+sql{
+    driver = "rlm_sql_mysql"
+    dialect = "mysql"
+}
+"""

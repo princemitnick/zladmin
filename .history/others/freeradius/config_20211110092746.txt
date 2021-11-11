@@ -1,0 +1,12 @@
+apt-get update
+apt-get -y upgrade
+
+apt-get install apache2
+
+apt-get install php libapache2-mod-php php-{gd,common,mail-mime,mysql,pear,db,mbstring,xml,curl}
+
+
+apt-get install mariadb-server
+mysql_secure_installation
+
+apt-get install freeradius

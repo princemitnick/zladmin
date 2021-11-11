@@ -1,0 +1,48 @@
+apt-get update
+apt-get -y upgrade
+
+apt-get install apache2
+
+apt-get install php libapache2-mod-php php-{gd,common,mail-mime,mysql,pear,db,mbstring,xml,curl}
+
+
+apt-get install mariadb-server
+mysql_secure_installation
+
+apt-get install freeradius
+
+apt-get install freeradius-mysql freeradius-utils
+
+mysql -uroot -pmysql radius < /etc/freeradius/3.0/mods-config/sql/main/mysql/schema.sql
+
+ln -s /etc/freeradius/3.0/mods-available/sql /etc/freeradius/3.0/mods-enabled/
+
+edit /etc/freeradius/3.0/mods-enabled/sql
+
+"""
+sql{
+    driver = "rlm_sql_mysql"
+    dialect = "mysql"
+    server = "localhost"
+    port = 3306
+    login = "radius"
+    password = "radius"
+    radius_db = "radius"
+}
+read_clients = yes
+client_table = "nas"
+
+#Comment SSL section mysql
+
+"""
+
+chgrp -h freerad /etc/freeradius/3.0/mods-available/sql
+chown -R freerad:freerad /etc/freeradius/3.0/mods-enabled/sql
+
+# Install daloradius
+
+apt-get install unzip wget
+
+wget daloradius-link
+
+mysql -uradius -pradius radius < daloradius_dir/contrib/db/fr2-mysql-daloradius-and-freeradius.sql
