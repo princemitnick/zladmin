@@ -23,3 +23,12 @@ Memory Usage
 -
   node_memory_Cached_bytes{job="node", instance="$instance"}
 )
+
+
+100 -
+(
+  avg(node_memory_MemAvailable_bytes{job="node", instance="$instance"})
+/
+  avg(node_memory_MemTotal_bytes{job="node", instance="$instance"})
+* 100
+)
