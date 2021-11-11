@@ -1,0 +1,5 @@
+sudo apt-get update
+sudo apt-get -y apt-transport-https software-properties-common wget 
+wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
+sudo add-apt-repository "deb https://packages.grafana.com/oss/deb stable main"
+sudo apt-get update
