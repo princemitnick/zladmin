@@ -1,0 +1,7 @@
+##
+CPU Usage 
+sum(rate(node_cpu_seconds_total{instance='webserver:9100',mode!='idle'}[5m])) * 100
+
+##
+Memory Usage 
+100 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * 100
