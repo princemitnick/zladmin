@@ -13,3 +13,13 @@ sum(rate(node_cpu_seconds_total{instance='webserver:9100',mode!='idle'}[5m])) * 
 ##
 Memory Usage 
 100 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * 100
+
+(
+  node_memory_MemTotal_bytes{job="node", instance="$instance"}
+-
+  node_memory_MemFree_bytes{job="node", instance="$instance"}
+-
+  node_memory_Buffers_bytes{job="node", instance="$instance"}
+-
+  node_memory_Cached_bytes{job="node", instance="$instance"}
+)
