@@ -46,3 +46,18 @@ rate(node_disk_io_time_seconds_total{job="node", instance="$instance", device!="
 
 ###
 DISK Space Usage
+
+sum(
+  max by (device) (
+    node_filesystem_size_bytes{job="node", instance="$instance", fstype!=""}
+  -
+    node_filesystem_avail_bytes{job="node", instance="$instance", fstype!=""}
+  )
+)
+
+sum(
+  max by (device) (
+    node_filesystem_avail_bytes{job="node", instance="$instance", fstype!=""}
+  )
+)
+
