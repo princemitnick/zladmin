@@ -5,11 +5,3 @@ sudo add-apt-repository "deb https://packages.grafana.com/oss/deb stable main"
 sudo apt-get update 
 sudo apt-get install grafana=8.2.3
 sudo systemctl daemon-reload
-sudo systemctl enable grafana-server 
-sudo systemctl start grafana-server
-
-http://IP-ADDR:3000 
-
-
-grafana.com/grafana/dashboards
-

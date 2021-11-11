@@ -8,8 +8,3 @@ sudo systemctl daemon-reload
 sudo systemctl enable grafana-server 
 sudo systemctl start grafana-server
 
-http://IP-ADDR:3000 
-
-
-grafana.com/grafana/dashboards
-
