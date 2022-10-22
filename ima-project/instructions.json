@@ -1,0 +1,30 @@
+{
+    "requests_from_ima": "Nombre de patients par regime",
+    
+    "marmelade":{
+        "container_name": "ima-saint-miche",
+        "mysql_access": {
+            "port": 3321,
+            "user": "root",
+            "password": "mysql",
+            "databases": [
+                "openmrs",
+                "isanteplus"
+            ]
+        }
+    },
+    "sain-michel":{
+        "container_name": "ima-marmelade",
+        "mysql_access" : {
+            "port": 3322,
+            "user": "root",
+            "password": "mysql",
+            "databases": [
+                "openmrs",
+                "isanteplus"
+            ]
+        }
+    }
+
+    
+}
