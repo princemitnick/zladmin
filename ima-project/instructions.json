@@ -1,6 +1,6 @@
 {
-    "requests_from_ima": "Nombre de patients par regime",
-    
+    "request_from_ima": "Nombre de patients par regime",
+
     "marmelade":{
         "container_name": "ima-saint-miche",
         "mysql_access": {
