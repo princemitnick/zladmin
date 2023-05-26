@@ -1,0 +1,32 @@
+https://unpoller.com/docs/dependencies/influxdb/
+
+
+install influxdb
+
+Create database
+
+=======================================
+
+Edit /etc/influxdb/influxdb.conf
+
+====================================================================
+
+Install unpoller
+https://unpoller.com/docs/install/linux
+
+curl -s https://golift.io/repo.sh | sudo bash -s - unpoller
+
+Edit /etc/unpoller/up.conf
+Edit [unifi.defaults] section
+
+
+CREATE DATABASE unifi
+USE unifi
+CREATE USER unifipoller WITH PASSWORD 'unifipoller' WITH ALL PRIVILEGES
+GRANT ALL ON unifi TO unifipoller
+
+
+CREATE RETENTION POLICY retention_policy ON unifi DURATION 32d REPLICATION 1
+
+
+===============================================================
