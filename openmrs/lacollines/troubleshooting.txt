@@ -1,0 +1,3 @@
+select property,property_value from global_property where property like '%started%';
+
+
