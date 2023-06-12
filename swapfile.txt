@@ -1,0 +1,27 @@
+# Check Current Swap
+sudo swapon -s
+
+# Create Swap File
+sudo fallocate -l 4G /swapfile
+chmod 600 /swapfile
+
+# Make it to swap format and activate on your system
+sudo mkswap /swapfile
+sudo swapon /swapfile
+
+# Make Swap Permanent
+sudo vim /etc/fstab
+# and add below entry to end of file
+/swapfile   none    swap    sw    0   0
+
+# Check System Swap Memory
+sudo swapon -s
+free -m
+
+# Update Swappiness Parameter
+sudo vim /etc/sysctl.conf
+# append following configuration to end of file
+vm.swappiness=10
+
+# Now reload the sysctl configuration file
+sudo sysctl -p
