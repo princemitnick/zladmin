@@ -1,4 +1,10 @@
+1. Unlock FileSystem
+
 fsunlock
+
+2. Update the repository
+Edit /etc/apt/sources.list 
+Remove # 
 apt-get update 
 dpkg chrome...
 
@@ -11,3 +17,5 @@ chown -R user:user google-chrome
 create custom connection
 
 google-chrome-stable 
+
+https://dokumen.tips/documents/install-chrome-on-thinpro.html?page=1
