@@ -1,0 +1,13 @@
+fsunlock
+apt-get update 
+dpkg chrome...
+
+google-chrome-stable --user-data-dir
+
+cd /home/user/.conf 
+chown -R user:user google-chrome 
+
+
+create custom connection
+
+google-chrome-stable 
