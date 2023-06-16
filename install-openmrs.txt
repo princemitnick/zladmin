@@ -1,0 +1,201 @@
+https://pihemr.atlassian.net/wiki/spaces/PIHEMR/pages/256971155/Deploying+a+New+Server
+
+
+1 .create your vagrant box with ubuntu 20.04
+
+
+2. apt-get update
+
+
+3. apt-get upgrade
+
+
+4. apt-get install git
+
+
+5. git clone https://github.com/PIH/mirebalais-puppet.git /etc/puppet
+
+GitHub - PIH/mirebalais-puppet
+
+Contribute to PIH/mirebalais-puppet development by creating an account on GitHub.
+
+
+6. vim /etc/hostname and add vagrant-test.pih-emr.org
+
+
+7. edit /etc/hosts and add the below
+
+
+127.0.0.1 vagrant-test.pih-emr.org
+
+
+restart your vagrant box (vagrant reload)
+
+
+one the box strarts log in and 
+
+
+8. cd /etc/puppet
+
+
+9. run ./puppet-apply site
+
+
+9. once that is done access openmrs from the browser using https://<vagrant-ip>/openmrs
+
+
+you may have to log in using username: admin, password test 
+
+
+then click on the arrow below so that the installation finishes
+
+
+Those are the steps
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+PIH-EMR
+Documentation
+PIH EMR Deployment instructions
+
+
+
+
+
+Share
+
+Deploying a New Server
+
+
+
+
+
+
++3
+Created by Ellen Ball
+Last updated: Jul 16, 2021 by Mark Goodrich5 min read
+16 people viewed
+This guide describes the steps to deploy PIH EMR using Puppet. 
+
+Note: Puppet will install the latest "golden" PIH EMR debian package.  As part of our build pipeline, a new debian package is created after each code change.  Once we are confident that a package is stable (ie, the smoke tests have passed) we can promote it to gold using the Promote Latest To Gold bamboo job (exception: the Mental Health install on Windows laptops).
+
+Prerequisites
+Clean server with Ubuntu 18.04 or 20.04 LTS installed
+User account with login and sudo privileges other than root (because the default puppet deploy will restrict root login privileges)
+If this is a CI server that bamboo automatically deploys to, you will need to set up password-less access from bamboo.pih-emr.org to this new server
+
+ssh to bamboo and become root.  Then type:
+
+ssh-copy-id root@name_of_new_server
+Attempt to ssh into the new server and confirm that it works.  You need to do this before deploying via puppet because the puppet script will turn off root password-based login to the server, and you'll need to properly set up password-less access before turning password-based access off.
+
+Adding to Puppet
+When puppet runs it will pick up the particular configuration to use based on the fully qualified domain name of the server.  To set the FQDN, follow the instructions here:
+
+https://gridscale.io/en/community/tutorials/hostname-fqdn-ubuntu/
+
+Once the FQDN is set, you'll have to do two things:
+
+Create a hiera yaml file in the hieradata directory with the same name as the FQDN:  https://github.com/PIH/mirebalais-puppet/tree/master/hieradata
+Add the FQDN to the site.pp: https://github.com/PIH/mirebalais-puppet/blob/master/manifests/site.pp
+To configure the hiera file, it makes sense to make a copy of the hiera for the server closest in configuration to the one you are setting up, and then tweak it accordingly.  Note that for any variables not defined in the server's hiera file, it will fall back to those defined in common.yaml.
+
+Additionally, if this is staging server that you plan to add to our build pipeline, you should configure capistrano (which will allow bamboo to run remote commands on this server):
+
+In the capistrano/config directory, create a rb file named after the server following the pattern for one of the other servers: https://github.com/PIH/mirebalais-puppet/tree/master/capistrano/config/deploy
+Make sure you have set password-less access from bamboo.pih-emr.org to this new server (see above)
+Steps to Deploy
+1) Become root
+
+sudo su -
+2) Update the name server in  
+
+/etc/network/interfaces
+
+(Currently in mirebalais the nameservers are 192.168.1.151 and 192.168.1.161)
+
+Question: Is the above step really necessary? I have never done it.
+
+3) Update the apt sources list
+
+apt-get update
+4) Update Ubuntu
+
+apt-get dist-upgrade
+5) Install git
+
+apt-get install git
+6) Go to the /etc folder
+
+cd /etc
+7) Get the latest puppet script into puppet directory (if there is an existing /etc/puppet directory, you may need to remove it first)
+
+git clone https://github.com/PIH/mirebalais-puppet.git puppet
+8) Install Ruby, Puppet and other necessary Ruby Gems, and run Puppet
+
+cd puppet
+./install.sh
+You will be prompted to provide a user to connect to amigo.pih-emr.org.  You need to make sure that this user is in the group Mirebalais.  This is necessary to copy over the secret key used to decrypt passwords. Also, the script will prompt you to copy a generated id_dsa.pub key to the backup server. Don’t forget to do this or else backups will not copy outside the hospital.  If you setting up a local environment or have no encrypted configurations in the hiera yaml file(s) you will be using, you can skip this step by executing "./install.sh local".
+
+After this, puppet will perform the install and then start OpenMRS... this could take 30 minutes or more, and there is a lot of metadata to install on initial startup.  You can tail the server logs (in /var/lib/tomcat7/logs) to watch the progress.
+
+When it completes and tomcat starts, you should be able to access OpenMRS via "https://FQDN/openmrs"
+
+9) Log in to PIH EMR as admin/test
+
+10) Change the password for the admin user
+
+You also should set a username for the admin user, and set them up with all the Admin privileges, and set them as a provider.  If this is is a CI server (any server that smoke tests run against) you'll need to set the admin password to our standard admin password. Also make sure to keep the admin user's local to Kreyol, as some of the smoke tests use the admin user and search for fields by name.
+
+11) Create new “scheduler” and “pacsintegration” (Mirebalais-only) user accounts on the system with all privileges
+
+12) Set the username/password pairs for the "scheduler" and "pacsintegration" users
+
+Go to the legacy admin → Settings and change scheduler.username and scheduler.password to match the new scheduler username/password, and change pacsintegration.listener.username and pacsintegration.listener.password to match the new pacs username/password.
+
+13) If this is a non-production server, create a local identifier source to generate "fake" ZL EMR IDs (don't do this on production servers–they retrieve identifiers from the central identifier server!)
+
+In the legacy admin go to "Manage Patient Identifier Sources"
+Add a new "Local Identifier Generator" for the "ZL EMR ID" with the following settings:
+Name: ZL Identifier Generator
+Base Character Set: ACDEFGHJKLMNPRTUVWXY1234567890
+First Identifier Base: 1000
+Prefix: Y
+Max Length: 6
+Min Length: 6
+Link the local generator to the Local Pool of Zl Identifiers
+Click the Configure Action next to the local pool
+Set "Pool Identifier Source" to "ZL Identifier Generator"
+Change "When to fill" to "When you request an identifier"
+14) If this is a CI server and smoke tests are running against it, you will have to add an "openmrs_editor" user to MySQL with rights to insert into the openmrs database (to set up test data)
+
+Log into the mysql client and:
+
+grant all on openmrs.* to 'openmrs_editor'@'%' identified by '<the password>'
+(The password can be found in the build plans for the smoke tests)
+
+Adding to Bamboo build pipeline
+If this is a staging server, and you want the PIH EMR to deploy updates to it on each code change, you should set up a deployment job in bamboo:
+
+Clone and rename one of the existing deployment jobs in Bamboo (deploy to ci is a good choice: http://bamboo.pih-emr.org:8085/browse/MIREBALAIS-DCI)
+Change the "Deploy to CI" task within the job from "cap ci deploy" to "cap (server_name) deploy", where (server_name) is the name of the new server, or, explicitly the name of the rb file you created in the capistrano/config directory in the "Adding a new server to puppet" steps above
+Edit the "Dependencies" sections of the "Package PIH-EMR", adding the new server, so that your deploy job will be triggered each time the PIH-EMR is packaged
+If you are deploying the workflow_app to server, also modify the "Workflow" plan in the "OpenMRS PWA" project to trigger your new plan as well
+Troubleshooting
+If you are running from a network that blocks the port used for the git protocol (i.e., the 888 comm ave network), you can run the following command before running the install script to tell git to automatically use “https” instead of “git” :
+
+git config --global url."https://".insteadOf git://
