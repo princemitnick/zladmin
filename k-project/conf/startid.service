@@ -1,0 +1,16 @@
+[Unit]
+Description=StartID
+After=network.target docker.service
+
+[Service]
+Type=forking
+
+
+ExecStart=/opt/hms/conf/startid.sh
+
+
+RestartSec=10
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
