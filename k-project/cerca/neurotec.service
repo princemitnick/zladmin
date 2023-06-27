@@ -1,0 +1,18 @@
+[Unit]
+Description=Start Neurotec Service
+After=network.target vboxdrv.service
+Before=runlevel2.target tomcat.service
+
+[Service]
+User=root
+Type=forking
+Restart=no 
+TimeoutSec=5min
+KillMode=process
+RemainAfterExit=yes
+
+ExecStart=/opt/neurotec/pgd/run_pgd.sh start
+ExecStop=/opt/neurotec/pgd/run_pgd.sh stop
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,102 @@
+version: '3'
+services:
+    cerca-postgres-service:
+        image: zldev/postgres:1.0.0-alpha
+        restart: always
+        container_name: cerca-postgres
+        volumes:
+        - /opt/cerca/hms/postgres:/var/lib/postgresql/data
+        environment:
+            POSTGRES_DB: keycloak
+            POSTGRES_USER: root
+            POSTGRES_PASSWORD: postgres
+        ports:
+        - "5432:5432"
+
+    cerca-mysql-service:
+        image: zldev/mysql:1.0.0-alpha
+        restart: always
+        container_name: cerca-mysql
+        volumes:
+        - /opt/cerca/hms/mysql:/var/lib/mysql/
+        environment:
+            MYSQL_USER: root
+            MYSQL_ROOT_PASSWORD: mysql
+        ports:
+        - "3307:3306"
+
+    cerca-mongo-service:
+        image: zldev/mongo:1.0.0-alpha
+        restart: always
+        container_name: cerca-mongo
+        volumes:
+        - /opt/cerca/hms/mongo/data:/data/db
+        environment:
+        - MONGO_INITDB_ROOT_USERNAME=root
+        - MONGO_INITDB_ROOT_PASSWORD=mongo
+        ports:
+        - "27018:27017"
+        command: --auth
+
+    cerca-keycloak-service:
+        depends_on:
+        - cerca-postgres-service
+        image: zldev/keycloak:1.0.0-alpha
+        restart: always
+        container_name: cerca-keycloak
+        environment:
+            JDBC_PARAM: connectionTimeout=30
+            DB_VENDOR: postgres
+            DB_ADDR: cerca-postgres-service
+            DB_PORT: 5432
+            DB_DATABASE: keycloak
+            DB_USER: root
+            DB_PASSWORD: postgres
+            DB_SCHEMA: public
+            KEYCLOAK_USER: admin
+            KEYCLOAK_PASSWORD: admin
+        ports:
+        - "8081:8080"
+
+    cerca-config-service:
+        depends_on:
+        - cerca-mongo-service
+        image: zldev/config:1.0.0-alpha
+        restart: always
+        container_name: cerca-config
+        # volumes:
+        # - /home/ron/workspace/pih/hms/config/src:/config/src
+        environment:
+            DB_USER: root
+            DB_PASSWORD: mongo
+            DB_ADDRESS: 172.17.0.1
+            DB_PORT: 27018
+            HMS_NS: hms
+        ports:
+        - "5001:5000"
+
+    cerca-chart-service:
+        depends_on:
+        - cerca-mongo-service
+        - cerca-keycloak-service
+        image: zldev/chart:1.0.2
+        restart: always
+        container_name: cerca-chart
+        # volumes:
+        # - /home/ron/workspace/pih/hms/chart/src:/chart/src
+        # - /home/ron/workspace/pih/hms/chart/build:/chart/build
+        environment:
+            DB_USER: root
+            DB_PASSWORD: mongo
+            HOST_IP: 10.60.121.9
+            DB_ADDRESS: 10.60.121.9
+            HMS_NS: hms
+            DB_PORT: 27018
+            IAM_PORT: 8081
+            ID_PORT: 9090
+            CONFIG_PORT: 5001
+            CHART_PORT: 5006
+            IAM_SECRET: 14fa9bf2-68e4-4bed-bce7-170d8c4ef082
+        ports:
+        - "5006:5005"
+#     #dispensing-service:

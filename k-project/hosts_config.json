@@ -1,0 +1,58 @@
+{
+    "name": "emr.zanmilasante.org",
+    "public_ip": "129.222.250.156",
+    "hosts" : [
+        {
+            "name": "base_server_1",
+            "private_ip" : "10.60.121.7",
+            "port_forwarding":[
+                {
+                    "name":"ssh_base_server_1",
+                    "local_port" : 22,
+                    "public_port": 2222
+                },
+                {
+                    "name":"cerca_chart",
+                    "local_port" : 5006,
+                    "public_port": 5006
+                },
+                {
+                    "name":"cerca_keycloak",
+                    "local_port" : 8081,
+                    "public_port": 8081
+                },
+                {
+                    "name":"belladere_chart",
+                    "local_port" : 5008,
+                    "public_port": 5008
+                },
+                {
+                    "name":"belladere_keycloak",
+                    "local_port" : 8083,
+                    "public_port": 8083
+                }
+            ]
+        },
+        {
+            "name": "base_server_2",
+            "private_ip" : "10.60.121.9",
+            "port_forwarding":[
+                {
+                    "name":"ssh_base_server_2",
+                    "local_port" : 22,
+                    "public_port": 2223
+                },
+                {
+                    "name":"thomonde_chart",
+                    "local_port" : 5007,
+                    "public_port": 5007
+                },
+                {
+                    "name":"thomonde_keycloak",
+                    "local_port" : 8082,
+                    "public_port": 8082
+                }
+            ]
+        }
+    ]
+}
