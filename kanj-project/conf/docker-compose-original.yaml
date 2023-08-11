@@ -1,0 +1,123 @@
+version: '3'
+services:
+    postgres-service:
+        image: zldev/postgres:1.0.0
+        restart: always
+        container_name: postgres
+        volumes:
+        - /opt/hms/postgres:/var/lib/postgresql/data
+        environment:
+            POSTGRES_DB: keycloak
+            POSTGRES_USER: root
+            POSTGRES_PASSWORD: postgres
+        ports:
+        - "5432:5432"
+
+    mysql-service:
+        image: zldev/mysql:1.0.0
+        restart: always
+        container_name: mysql
+        volumes:
+        - /opt/hms/mysql:/var/lib/mysql/
+        environment:
+            MYSQL_USER: root
+            MYSQL_ROOT_PASSWORD: mysql
+        ports:
+        - "3307:3306"
+
+    mongo-service:
+        image: zldev/mongo:1.0.1
+        restart: always
+        container_name: mongo
+        volumes:
+        - /opt/hms/mongo/data:/data/db
+        #- /opt/hms/mongo/import:/data/import
+        environment:
+        - MONGO_INITDB_ROOT_USERNAME=root
+        - MONGO_INITDB_ROOT_PASSWORD=mongo
+        ports:
+        - "27018:27017"
+        command: --auth
+        extra_hosts:
+        - "bcentral.zanmilasante.org:192.168.1.181"
+
+    mongo-seed:
+        image: zldev/mongo:1.0.1
+        container_name: mongo-seed
+        depends_on:
+        - mongo-service
+        #volumes:
+        #    - ./mongo:/mongo
+        command:
+            ./import.sh
+        extra_hosts:
+        - "bcentral.zanmilasante.org:192.168.1.181"
+
+    keycloak-service:
+        depends_on:
+        - postgres-service
+        image: zldev/keycloak:1.0.0
+        restart: always
+        container_name: keycloak
+        environment:
+            JDBC_PARAM: connectionTimeout=30
+            DB_VENDOR: postgres
+            DB_ADDR: postgres-service
+            DB_PORT: 5432
+            DB_DATABASE: keycloak
+            DB_USER: root
+            DB_PASSWORD: postgres
+            DB_SCHEMA: public
+            KEYCLOAK_USER: admin
+            KEYCLOAK_PASSWORD: admin
+        ports:
+        - "8081:8080"
+        extra_hosts:
+        - "bcentral.zanmilasante.org:192.168.1.181"
+
+    config-service:
+        depends_on:
+        - mongo-service
+        image: zldev/config:1.0.1
+        restart: always
+        container_name: config
+        # volumes:
+        # - /home/ron/workspace/pih/hms/config/src:/config/src
+        environment:
+            DB_USER: root
+            DB_PASSWORD: mongo
+            DB_ADDRESS: 172.17.0.1
+            DB_PORT: 27018
+            HMS_NS: hms
+        ports:
+        - "5001:5000"
+        extra_hosts:
+        - "bcentral.zanmilasante.org:192.168.1.181"
+
+    chart-service:
+        depends_on:
+        - mongo-service
+        #- keycloak-service
+        image: zldev/chart:1.0.2
+        restart: always
+        container_name: chart
+        # volumes:
+        # - /home/ron/workspace/pih/hms/chart/src:/chart/src
+        # - /home/ron/workspace/pih/hms/chart/build:/chart/build
+        environment:
+            DB_USER: root
+            DB_PASSWORD: mongo
+            HOST_IP: 192.168.22.9
+            DB_ADDRESS: 172.17.0.1
+            HMS_NS: hms
+            DB_PORT: 27018
+            IAM_PORT: 8081
+            ID_PORT: 9090
+            CONFIG_PORT: 5001
+            CHART_PORT: 5006
+            IAM_SECRET: 14fa9bf2-68e4-4bed-bce7-170d8c4ef082
+        ports:
+        - "5006:5005"
+        extra_hosts:
+        - "bcentral.zanmilasante.org:192.168.1.181"
+#     #dispensing-service:
