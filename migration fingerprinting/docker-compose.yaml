@@ -1,0 +1,15 @@
+version: '3'
+services:
+   mysql-service:
+     image: zldev/mysql:1.0.0-alpha
+     restart: always
+     container_name: mysql-migration-server
+     volumes:
+     - /opt/migration-project/.mysql:/var/lib/mysql/
+     ports:
+     - "3310:3306"
+     environment:
+       MYSQL_USER: root
+       MYSQL_ROOT_PASSWORD: mysql
+
+  

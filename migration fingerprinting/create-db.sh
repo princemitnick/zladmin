@@ -1,0 +1,25 @@
+CREATE DATABASE verrettes;
+
+CREATE DATABASE pra;
+
+CREATE DATABASE sspe;
+
+CREATE DATABASE hum;
+
+CREATE DATABASE hinche;
+
+CREATE DATABASE cerca;
+
+CREATE DATABASE lacollines;
+
+CREATE DATABASE thomonde;
+
+CREATE DATABASE boucan;
+
+CREATE DATABASE belladere;
+
+CREATE DATABASE cange;
+
+
+
+

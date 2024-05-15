@@ -1,0 +1,8 @@
+1. Configuration Zerotier 
+   Compte Gmail medinfo
+2. Ajout HSN Server
+3. Ajout Laptop Louidor
+4. Creer un repertoire pour televerser les dumps sql des sites
+5. Lanser les containers (mysql) des differents sites 
+6. Upload les fichiers sql dans les containers 
+
